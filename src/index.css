@@ -1,0 +1,32 @@
+:root {
+}
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: "Josefin Sans", sans-serif;
+}
+ul {
+    list-style-type: none;
+}
+a {
+    text-decoration: none;
+}
+.light-theme {
+    --clr-gray-1: hsl(0, 0%, 98%);
+    --clr-gray-2: hsl(236, 33%, 92%);
+    --clr-gray-3: hsl(233, 11%, 84%);
+    --clr-gray-4: hsl(236, 9%, 61%);
+    --clr-gray-5: hsl(235, 19%, 35%);
+}
+.dark-theme {
+}
+.desktop {
+}
+.mobile {
+    display: none;
+}
