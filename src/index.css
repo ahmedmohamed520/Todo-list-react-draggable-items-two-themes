@@ -41,11 +41,6 @@ a {
     --clr-gray-6: hsl(234, 39%, 85%);
     --clr-gray-7: hsl(233, 14%, 35%);
 }
-.desktop {
-}
-.mobile {
-    display: none;
-}
 .container {
     width: 600px;
     max-width: 90%;
@@ -85,4 +80,42 @@ a {
 }
 .footer-link:hover {
     color: var(--clr-hover);
+}
+
+/* Themes Hero image */
+.light-theme .light-hero-desktop {
+    display: block !important;
+}
+.light-theme .dark-hero-desktop {
+    display: none !important;
+}
+.dark-theme .dark-hero-desktop {
+    display: block !important;
+}
+.dark-theme .light-hero-desktop {
+    display: none !important;
+}
+.light-hero-mobile,
+.dark-hero-mobile {
+    display: none;
+}
+
+@media only screen and (max-width: 704px) {
+    .light-theme .light-hero-mobile {
+        display: block !important;
+    }
+    .light-theme .dark-hero-mobile {
+        display: none !important;
+    }
+    .dark-theme .dark-hero-mobile {
+        display: block !important;
+    }
+    .dark-theme .light-hero-mobile {
+        display: none !important;
+    }
+
+    .light-hero-desktop,
+    .dark-hero-desktop {
+        display: none;
+    }
 }

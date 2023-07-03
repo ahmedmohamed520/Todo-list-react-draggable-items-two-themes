@@ -82,8 +82,23 @@ const App = () => {
 
     return (
         <Wrapper className={`${theme}-theme`}>
-            <img src="images/bg-desktop-light.jpg" alt="hero image" className="hero-image desktop" />
-            <img src="images/bg-mobile-light.jpg" alt="hero image" className="hero-image mobile" />
+            <img
+                src="images/bg-desktop-light.jpg"
+                alt="hero image"
+                className="hero-image  light-hero-desktop"
+            />
+            <img
+                src="images/bg-mobile-light.jpg"
+                alt="hero image"
+                className="hero-image  light-hero-mobile"
+            />
+
+            <img
+                src="images/bg-desktop-dark.jpg"
+                alt="hero image"
+                className="hero-image  dark-hero-desktop"
+            />
+            <img src="images/bg-mobile-dark.jpg" alt="hero image" className="hero-image  dark-hero-mobile" />
 
             <div className="container">
                 <Header setTheme={setTheme} theme={theme} />
@@ -179,12 +194,6 @@ const Wrapper = styled.div`
         }
         .btn {
             grid-column: 3/4;
-        }
-        .desktop {
-            display: none;
-        }
-        .mobile {
-            display: block;
         }
     }
 `;
