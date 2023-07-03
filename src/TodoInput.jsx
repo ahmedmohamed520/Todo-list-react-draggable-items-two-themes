@@ -31,7 +31,7 @@ const TodoInput = ({ addTaskHandler }) => {
 };
 
 const Wrapper = styled.form`
-    background-color: #fff;
+    background-color: var(--clr-gray-1);
     border-radius: 5px;
     margin-bottom: 1.5rem;
     display: flex;
@@ -51,7 +51,7 @@ const Wrapper = styled.form`
         width: 100%;
         border: none;
         font-size: 1rem;
-        color: var(--clr-gray-5);
+        background-color: var(--clr-gray-1);
         padding: 1rem;
         padding-left: 3.5rem;
         border-radius: 5px;

@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useDrag, useDrop } from "react-dnd";
 import { styled } from "styled-components";
 import Header from "./Header";
 import TodoInput from "./TodoInput";
@@ -8,19 +9,23 @@ import { tasks as data } from "./data";
 import FooterLinks from "./FooterLinks";
 
 const App = () => {
+    const dragItem = useRef();
+    const dragOverItem = useRef();
+
     const [tasks, setTasks] = useState(data);
     const [filter, setFilter] = useState("all");
     const [filteredTasks, setFilteredTasks] = useState(tasks);
     const [numOfActiveTasks, setNumOfActiveTasks] = useState(0);
+    const [theme, setTheme] = useState("light");
+
+    let tasksCopy = JSON.parse(JSON.stringify(tasks));
 
     const addTaskHandler = (task) => {
-        const tasksCopy = JSON.parse(JSON.stringify(tasks));
         tasksCopy.push(task);
         setTasks(tasksCopy);
         filterTasksHandler("all");
     };
     const toggleMarkAsCompletedHandler = (index) => {
-        const tasksCopy = JSON.parse(JSON.stringify(tasks));
         tasksCopy[index].isCompleted = !tasksCopy[index]?.isCompleted;
         setTasks(tasksCopy);
     };
@@ -46,28 +51,42 @@ const App = () => {
     }, [tasks, filter]);
 
     const clearCompletedHandler = () => {
-        let tasksCopy = JSON.parse(JSON.stringify(tasks));
         tasksCopy = tasksCopy.filter((task) => task.isCompleted === false);
         setTasks(tasksCopy);
     };
 
     const deleteTaskHandler = (id) => {
-        let tasksCopy = JSON.parse(JSON.stringify(tasks));
         tasksCopy = tasksCopy.filter((task) => task.id !== id);
         setTasks(tasksCopy);
     };
+
+    const dragStart = (e, position) => {
+        dragItem.current = position;
+    };
+    const dragEnter = (e, position) => {
+        dragOverItem.current = position;
+    };
+    const drop = (e) => {
+        const dragItemContent = tasksCopy[dragItem.current];
+        tasksCopy.splice(dragItem.current, 1);
+        tasksCopy.splice(dragOverItem.current, 0, dragItemContent);
+        dragItem.current = null;
+        dragOverItem.current = null;
+        setTasks(tasksCopy);
+    };
+    // Effects
     useEffect(() => {
         numOfActiveTasksHandler();
         filterTasksHandler();
     }, [numOfActiveTasksHandler, filterTasksHandler]);
 
     return (
-        <Wrapper className={`light-theme`}>
+        <Wrapper className={`${theme}-theme`}>
             <img src="images/bg-desktop-light.jpg" alt="hero image" className="hero-image desktop" />
             <img src="images/bg-mobile-light.jpg" alt="hero image" className="hero-image mobile" />
 
             <div className="container">
-                <Header />
+                <Header setTheme={setTheme} theme={theme} />
                 <TodoInput addTaskHandler={addTaskHandler} />
                 <div className="todo-list">
                     {filteredTasks.map((task, index) => (
@@ -77,6 +96,9 @@ const App = () => {
                             index={index}
                             toggleMarkAsCompletedHandler={toggleMarkAsCompletedHandler}
                             deleteTaskHandler={deleteTaskHandler}
+                            onDragStart={(e) => dragStart(e, index)}
+                            onDragEnter={(e) => dragEnter(e, index)}
+                            onDragEnd={drop}
                         />
                     ))}
 
@@ -100,6 +122,9 @@ const App = () => {
 const Wrapper = styled.div`
     position: relative;
 
+    background-color: var(--bg-main);
+    min-height: 100vh;
+
     .hero-image {
         position: absolute;
         height: 45vh;
@@ -107,11 +132,11 @@ const Wrapper = styled.div`
         left: 0;
         top: 0;
         object-fit: cover;
-        z-index: -1;
+        z-index: 1;
     }
     .todo-list {
         border-radius: 5px;
-        background-color: #fff;
+        background-color: var(--clr-gray-1);
         overflow: hidden;
         margin-bottom: 1.5rem;
         box-shadow: 0 0 25px var(--clr-gray-3);

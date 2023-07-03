@@ -1,45 +1,68 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { styled } from "styled-components";
 
-const TodoItem = ({ id, index, title, isCompleted, toggleMarkAsCompletedHandler, deleteTaskHandler }) => {
-    return (
-        <Wrapper className={isCompleted && "completed-task"}>
-            <div
-                onClick={() => {
-                    toggleMarkAsCompletedHandler(index);
-                }}
-                className="todo-circle"
-            ></div>
-            <div
-                onClick={() => {
-                    toggleMarkAsCompletedHandler(index);
-                }}
-                className="todo-text"
+const TodoItem = forwardRef(
+    (
+        {
+            id,
+            index,
+            title,
+            isCompleted,
+            toggleMarkAsCompletedHandler,
+            deleteTaskHandler,
+            onDragStart,
+            onDragEnter,
+            onDragEnd,
+        },
+        ref
+    ) => {
+        return (
+            <Wrapper
+                onDragStart={onDragStart}
+                onDragEnter={onDragEnter}
+                onDragEnd={onDragEnd}
+                draggable
+                ref={ref}
+                className={isCompleted && "completed-task"}
             >
-                {title}
-            </div>
-            <div
-                onClick={() => {
-                    deleteTaskHandler(id);
-                }}
-                className="todo-icon"
-            >
-                <img src="images/icon-cross.svg" alt="cross icon" />
-            </div>
-        </Wrapper>
-    );
-};
+                <div
+                    onClick={() => {
+                        toggleMarkAsCompletedHandler(index);
+                    }}
+                    className="todo-circle"
+                ></div>
+                <div
+                    onClick={() => {
+                        toggleMarkAsCompletedHandler(index);
+                    }}
+                    className="todo-text"
+                >
+                    {title}
+                </div>
+                <div
+                    onClick={() => {
+                        deleteTaskHandler(id);
+                    }}
+                    className="todo-icon"
+                >
+                    <img src="images/icon-cross.svg" alt="cross icon" />
+                </div>
+            </Wrapper>
+        );
+    }
+);
 const Wrapper = styled.div`
     display: flex;
     align-items: center;
     gap: 1.25rem;
-    background-color: #fff;
+    background-color: var(--clr-gray-1);
     border-bottom: 1px solid var(--clr-gray-3);
     padding: 1rem;
     cursor: pointer;
 
     .todo-text {
         flex-grow: 1;
+        color: var(--clr-gray-6);
     }
     .todo-circle {
         width: 22px;
